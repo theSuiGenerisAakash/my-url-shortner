@@ -1,5 +1,9 @@
 const Models = require('../../models');
 
+beforeEach(() => Models.URLPairs.destroy({ truncate: true }));
+afterEach(() => Models.URLPairs.destroy({ truncate: true }));
+afterAll(() => Models.close());
+
 describe('Testing URLPairs table', () => {
   it('Testing table for columns', (done) => {
     const urlObj = {
