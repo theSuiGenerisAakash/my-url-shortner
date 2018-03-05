@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       validate: {
         isAlphanumeric: true,
-        len: [6],
+        len: [6, 6],
       },
     },
   }, {});
