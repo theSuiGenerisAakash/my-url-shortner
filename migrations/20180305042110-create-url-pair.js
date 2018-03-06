@@ -3,7 +3,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('URLPairs', {
     longURL: {
       allowNull: false,
-      unique: true,
       type: Sequelize.STRING,
     },
     shortURL: {

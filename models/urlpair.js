@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const URLStore = sequelize.define('URLPairs', {
     longURL: {
       type: DataTypes.STRING,
-      unique: true,
       validate: {
         isUrl: true,
       },
