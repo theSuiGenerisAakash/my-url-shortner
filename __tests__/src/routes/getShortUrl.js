@@ -46,10 +46,10 @@ describe('Testing /getShortUrl', () => {
         Models.URLPairs.create({
           longURL: 'http://facebook.com', shortURL: response.result.shortURL, createdAt: new Date(), updatedAt: new Date(),
         })).then(() =>
-        Server.inject(options, (response) => {
-          expect(response.result.shortURL.length > 0).toBe(true);
-          expect(typeof response.result.shortURL).toBe('string');
-          expect(response.result.shortURL).not.toBe('bf382d');
+        Server.inject(options, (resFinal) => {
+          expect(resFinal.result.shortURL.length > 0).toBe(true);
+          expect(typeof resFinal.result.shortURL).toBe('string');
+          expect(resFinal.result.shortURL).not.toBe(response.result.shortURL);
           done();
         }));
     });
