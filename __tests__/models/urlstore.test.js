@@ -19,7 +19,7 @@ describe('Testing URLPairs table', () => {
 });
 
 describe('Testing length validation of shortUrl', () => {
-  it('Testing shorturl of length 7', (done) => {
+  it('Testing shortURL of length 7', (done) => {
     Models.URLPairs.create({ longURL: 'www.example.com', shortURL: 'abcdefg' })
       .catch((err) => { expect(err).not.toBe(null); done(); });
   });
@@ -33,5 +33,19 @@ describe('Testing length validation of shortUrl', () => {
         expect(value.dataValues).not.toBe(null);
         done();
       });
+  });
+});
+
+describe('Testing unique constraint validation in the model', () => {
+  it('Testing for new url, should insert successfully', (done) => {
+    Models.URLPairs.create({ longURL: 'www.example12345.com', shortURL: 'c71a30' })
+      .then((value) => { expect(value.dataValues).not.toBe(null); done(); });
+  });
+
+  it('Testing for repeated url, should not insert', (done) => {
+    Models.URLPairs.create({ longURL: 'www.example12.com', shortURL: 'qwerty' }).then(() => {
+      Models.URLPairs.create({ longURL: 'www.example12.com', shortURL: 'qwerty' })
+        .catch((err) => { expect(err).not.toBe(null); done(); });
+    });
   });
 });
