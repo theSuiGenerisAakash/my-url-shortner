@@ -36,4 +36,15 @@ describe('Testing /getLongUrl', () => {
       });
     });
   });
+  it('Testing with a short URL when its absent in the table', (done) => {
+    const options = {
+      method: 'POST',
+      url: '/getLongUrl',
+      payload: { shortURL: 'nothin' },
+    };
+    Server.inject(options, (response) => {
+      expect(response.result.statusCode).toBe(204);
+      done();
+    });
+  });
 });
