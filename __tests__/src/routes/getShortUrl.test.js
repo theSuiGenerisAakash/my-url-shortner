@@ -1,8 +1,8 @@
 const Models = require('../../../models');
 const Server = require('../../../src/server');
 
-beforeEach(done => Models.URLPairs.destroy({ truncate: true }).then(() => { done(); }));
-afterEach(done => Models.URLPairs.destroy({ truncate: true }).then(() => { done(); }));
+beforeEach(() => Models.URLPairs.destroy({ truncate: true }));
+afterEach(() => Models.URLPairs.destroy({ truncate: true }));
 afterAll(() => Models.close());
 
 describe('Testing /getShortUrl', () => {
@@ -35,23 +35,21 @@ describe('Testing /getShortUrl', () => {
       });
     });
   });
-  it('Testing with the two long URLs producing same hash', (done) => {
+  it('Testing with the two URLs producing same short URL[conflict]', (done) => {
     const options = {
       method: 'POST',
       url: '/getShortUrl',
       payload: { longURL: 'http://google.co.in' },
     };
+    Models.URLPairs.create({});
     Server.inject(options, (response) => {
-      Models.URLPairs.truncate().then(() =>
-        Models.URLPairs.create({
-          longURL: 'http://facebook.com', shortURL: response.result.shortURL, createdAt: new Date(), updatedAt: new Date(),
-        })).then(() =>
-        Server.inject(options, (resFinal) => {
-          expect(resFinal.result.shortURL.length > 0).toBe(true);
-          expect(typeof resFinal.result.shortURL).toBe('string');
-          expect(resFinal.result.shortURL).not.toBe(response.result.shortURL);
-          done();
-        }));
+      Server.inject(options, (response2) => {
+        expect(response2.result.longURL).toBe(options.payload.longURL);
+        expect(response2.result.shortURL.length > 0).toBe(true);
+        expect(typeof response.result.shortURL).toBe('string');
+        expect(response2.result.shortURL).toBe(response.result.shortURL);
+        done();
+      });
     });
   });
 });

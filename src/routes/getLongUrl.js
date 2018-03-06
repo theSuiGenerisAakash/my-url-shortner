@@ -2,10 +2,10 @@ const Models = require('../../models');
 
 module.exports = [
   {
-    method: 'POST',
-    path: '/getLongUrl',
+    method: 'GET',
+    path: '/getLongUrl/{shortURL}',
     handler: (request, response) => {
-      const { payload: { shortURL } } = request;
+      const { params: { shortURL } } = request;
       return Models.URLPairs.find({ where: { shortURL } }).then((res) => {
         if (res === null) {
           response({

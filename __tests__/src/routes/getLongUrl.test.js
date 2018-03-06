@@ -13,34 +13,24 @@ describe('Testing /getLongUrl', () => {
       payload: { longURL: 'http://google.co.in' },
     };
     const optionsForFetchingLongURL = {
-      method: 'POST',
+      method: 'GET',
       url: '/getLongUrl',
-      payload: {},
     };
     Server.inject(optionsForSeedingShortURL, (responseAfterSeed) => {
+      console.log(responseAfterSeed.result.shortURL);
       Server.inject({
         ...optionsForFetchingLongURL,
-        payload: { shortURL: responseAfterSeed.result.shortURL },
+        url: `/getLongUrl/${responseAfterSeed.result.shortURL}`,
       }, (responseAfterFetch) => {
-        console.log(responseAfterFetch.result);
-        Models.URLPairs.findAll({
-          where: {
-            shortURL: responseAfterFetch.result.shortURL,
-            longURL: responseAfterFetch.result.longURL,
-          },
-        })
-          .then((responseDB) => {
-            expect(responseDB.length).toBe(1);
-            done();
-          });
+        expect(responseAfterFetch.result.longURL).toBe(optionsForSeedingShortURL.payload.longURL);
+        done();
       });
     });
   });
   it('Testing with a short URL when its absent in the table', (done) => {
     const options = {
-      method: 'POST',
-      url: '/getLongUrl',
-      payload: { shortURL: 'nothin' },
+      method: 'GET',
+      url: '/getLongUrl/nothin',
     };
     Server.inject(options, (response) => {
       expect(response.result.statusCode).toBe(204);
