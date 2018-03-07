@@ -4,7 +4,10 @@
     "password": null,
     "database": "snipurl_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "pool": {
+      "max": 100
+    }
   },
   "test": {
     "username": "aakashverma",
