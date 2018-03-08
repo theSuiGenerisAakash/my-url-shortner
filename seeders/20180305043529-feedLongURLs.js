@@ -1,4 +1,7 @@
-const md5 = require('md5');
+const md5 = require('md5-base64');
+const redis = require('redis');
+
+const client = redis.createClient(); // creates a new client
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -9,17 +12,21 @@ module.exports = {
     let shortURLInstance = '';
     let urlObj = {};
     let md5Instance = '';
+    // client.on('connect', () => {
+    //   console.log('connected');
+    // });
     for (let i = 0; i < 1000000; i += 1) {
       longURLInstance = `${longURLtemplate}${i}`;
       md5Instance = md5(longURLInstance);
-      shortURLInstance = md5Instance.substr(0, 6);
+      shortURLInstance = md5Instance.substr(0, 6).replace(/\//g, '_');
       let incrSubs = 1;
       while (shortURLSet.has(shortURLInstance)) {
-        shortURLInstance = md5Instance.substr(incrSubs, 6);
+        shortURLInstance = md5Instance.substr(incrSubs, 6).replace(/\//g, '_');
         incrSubs += 1;
       }
-      shortURLSet.add(shortURLInstance);
+      // client.set(shortURLInstance, longURLInstance);
       const time = new Date();
+      shortURLSet.add(shortURLInstance);
       urlObj = {
         longURL: longURLInstance,
         shortURL: shortURLInstance,
