@@ -17,11 +17,11 @@ describe('Testing /getLongUrl', () => {
       url: '/getLongUrl',
     };
     Server.inject(optionsForSeedingShortURL, (responseAfterSeed) => {
-      console.log(responseAfterSeed.result.shortURL);
       Server.inject({
         ...optionsForFetchingLongURL,
         url: `/getLongUrl/${responseAfterSeed.result.shortURL}`,
       }, (responseAfterFetch) => {
+        console.log(responseAfterFetch.result);
         expect(responseAfterFetch.result.longURL).toBe(optionsForSeedingShortURL.payload.longURL);
         done();
       });

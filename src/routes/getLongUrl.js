@@ -18,12 +18,15 @@ module.exports = [
               });
             } else {
               client.hset('snipurl_cache', shortURL, res.dataValues.longURL);
-              response(res);
+              response({
+                longURL: res.dataValues.longURL,
+                statusCode: 201,
+              });
             }
           });
         } else {
           response({
-            value,
+            longURL: value,
             statusCode: 200,
           });
         }
