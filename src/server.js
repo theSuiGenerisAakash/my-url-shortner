@@ -4,7 +4,7 @@ const Good = require('good');
 
 const server = new Hapi.Server();
 server.connection({
-  port: 3001,
+  port: 8080,
   host: 'localhost',
 });
 
