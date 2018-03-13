@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test jest --coverage --forceExit --runInBand",
-    "start": "NODE_ENV=development sequelize db:migrate && NODE_ENV=test nodemon src/server.js",
+    "start dev": "NODE_ENV=development sequelize db:migrate && NODE_ENV=test nodemon src/server.js",
+    "start": "NODE_ENV=production sequelize db:migrate && NODE_ENV=production node src/server.js",
     "seed": "NODE_ENV=development sequelize db:seed:all",
     "unseed": "NODE_ENV=development sequelize db:seed:undo:all"
   },

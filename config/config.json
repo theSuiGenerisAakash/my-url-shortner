@@ -17,10 +17,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
+    "username": "aakashverma",
     "password": null,
     "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "54.152.33.76",
+    "dialect": "postgres"
   }
 }
