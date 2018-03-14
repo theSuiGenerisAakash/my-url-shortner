@@ -1,7 +1,7 @@
 const Models = require('../../models');
 const redis = require('redis');
 
-const client = redis.createClient();
+const client = redis.createClient(6379, '172.31.62.11');
 module.exports = [
   {
     method: 'GET',

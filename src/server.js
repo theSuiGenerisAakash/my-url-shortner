@@ -5,7 +5,7 @@ const Good = require('good');
 const server = new Hapi.Server();
 server.connection({
   port: 8080,
-  host: 'localhost',
+  host: '0.0.0.0',
 });
 
 server.register({
@@ -37,7 +37,7 @@ if (!module.parent) {
     if (err) {
       throw (err);
     }
-    console.log('Server started at port 3001');
+    console.log('Server started at port 8080');
   });
 }
 
